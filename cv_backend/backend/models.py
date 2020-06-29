@@ -4,9 +4,9 @@ from django.db import models
 # Create your models here.
 
 class oldperson_info(models.Model):
-    ID = models.IntegerField(max_length=11, primary_key=True)
-    ORG_ID = models.IntegerField(max_length=11, blank=True)
-    CLIENT_ID = models.IntegerField(max_length=11, blank=True)
+    ID = models.IntegerField(primary_key=True)
+    ORG_ID = models.IntegerField(blank=True)
+    CLIENT_ID = models.IntegerField(blank=True)
     username = models.CharField(max_length=50)
     gender = models.CharField(max_length=5) # f/m
     phone = models.CharField(max_length=50)
@@ -21,7 +21,6 @@ class oldperson_info(models.Model):
     firstguardian_relationship = models.CharField(max_length=50)
     firstguardian_phone = models.CharField(max_length=50)
     firstguardian_wechat = models.CharField(max_length=50)
-
     sceondguardian_name = models.CharField(max_length=50)
     secondguardian_relationship = models.CharField(max_length=50)
     secondguardian_phone = models.CharField(max_length=50)
@@ -30,9 +29,9 @@ class oldperson_info(models.Model):
     DESCRIPTION = models.CharField(max_length=50)
     ISACTIVE = models.CharField(max_length=10)
     CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(max_length=11)
+    CREATEBY = models.IntegerField()
     UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(max_length=11)
+    UPDATEBY = models.IntegerField()
     REMOVE = models.CharField(max_length=1)
 
 
@@ -41,9 +40,9 @@ class oldperson_info(models.Model):
 
 
 class employee_info(models.Model):
-    id = models.IntegerField(max_length=11, primary_key=True)
-    ORG_ID = models.IntegerField(max_length=11)
-    CLIENT_ID = models.IntegerField(max_length=11)
+    id = models.IntegerField(primary_key=True)
+    ORG_ID = models.IntegerField()
+    CLIENT_ID = models.IntegerField()
     username = models.CharField(max_length=50)
     gender = models.CharField(max_length=5)  # f/m
     phone = models.CharField(max_length=50)
@@ -56,9 +55,9 @@ class employee_info(models.Model):
     DESCRIPTION = models.CharField(max_length=200)
     ISACTIVE = models.CharField(max_length=10)
     CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(max_length=11)
+    CREATEBY = models.IntegerField()
     UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(max_length=11)
+    UPDATEBY = models.IntegerField()
     REMOVE = models.CharField(max_length=1)
 
     def __str__(self):
@@ -66,9 +65,9 @@ class employee_info(models.Model):
 
 
 class volunteer_info(models.Model):
-    id = models.IntegerField(max_length=11, primary_key=True)
-    ORG_ID = models.IntegerField(max_length=11)
-    CLIENT_ID = models.IntegerField(max_length=11)
+    id = models.IntegerField(primary_key=True)
+    ORG_ID = models.IntegerField()
+    CLIENT_ID = models.IntegerField()
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=5) # f/m
     phone = models.CharField(max_length=50)
@@ -81,9 +80,9 @@ class volunteer_info(models.Model):
     DESCRIPTION = models.CharField(max_length=200)
     ISACTIVE = models.CharField(max_length=10)
     CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(max_length=11)
+    CREATEBY = models.IntegerField()
     UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(max_length=11)
+    UPDATEBY = models.IntegerField()
     REMOVE = models.CharField(max_length=1)
 
     def __str__(self):
@@ -91,12 +90,12 @@ class volunteer_info(models.Model):
 
 
 class event_info(models.Model):
-    id = models.IntegerField(max_length=11,primary_key=True)
-    event_type = models.IntegerField(max_length=11)
+    id = models.IntegerField(primary_key=True)
+    event_type = models.IntegerField()
     event_date = models.DateTimeField()
     event_location = models.CharField(max_length=200)
     event_desc = models.CharField(max_length=200)
-    oldperson_id = models.IntegerField(max_length=11)
+    oldperson_id = models.IntegerField()
     img_path = models.CharField(max_length=200)
 
     def __str__(self):
@@ -104,9 +103,9 @@ class event_info(models.Model):
 
 
 class sys_user(models.Model):
-    id = models.IntegerField(max_length=11,primary_key=True)
-    ORG_ID = models.IntegerField(max_length=11)
-    CLIENT_ID = models.IntegerField(max_length=11)
+    id = models.IntegerField(primary_key=True)
+    ORG_ID = models.IntegerField()
+    CLIENT_ID = models.IntegerField()
     UserName = models.CharField(max_length=50)
     Password = models.CharField(max_length=50)
     REAL_NAME = models.CharField(max_length=50)
@@ -117,9 +116,9 @@ class sys_user(models.Model):
     DESCRIPTION = models.CharField(max_length=200)
     ISACTIVE = models.CharField(max_length=10)
     CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(max_length=11)
+    CREATEBY = models.IntegerField()
     UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(max_length=11)
+    UPDATEBY = models.IntegerField()
     REMOVE = models.CharField(max_length=1)
     DATAFILTER = models.CharField(max_length=200)
     theme = models.CharField(max_length=45)
