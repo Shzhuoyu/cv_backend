@@ -5,15 +5,15 @@ from django.db import models
 
 class oldperson_info(models.Model):
     ID = models.IntegerField(primary_key=True)
-    ORG_ID = models.IntegerField(blank=True)
-    CLIENT_ID = models.IntegerField(blank=True)
+    ORG_ID = models.IntegerField(null=True, blank=True)
+    CLIENT_ID = models.IntegerField(null=True, blank=True)
     username = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=5, blank=True) # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
-    birthday = models.DateTimeField(blank=True)
-    checkin_date = models.DateTimeField(blank=True)
-    checkout_data = models.DateTimeField(blank=True)
+    birthday = models.DateTimeField(null=True, blank=True)
+    checkin_date = models.DateTimeField(null=True, blank=True)
+    checkout_data = models.DateTimeField(null=True, blank=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     room_number = models.CharField(max_length=50, blank=True)
@@ -28,10 +28,10 @@ class oldperson_info(models.Model):
     health_state = models.CharField(max_length=50, blank=True)
     DESCRIPTION = models.CharField(max_length=50, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
-    CREATED = models.DateTimeField(blank=True)
-    CREATEBY = models.IntegerField(blank=True)
-    UPDATED = models.DateTimeField(blank=True)
-    UPDATEBY = models.IntegerField(blank=True)
+    CREATED = models.DateTimeField(null=True, blank=True)
+    CREATEBY = models.IntegerField(null=True, blank=True)
+    UPDATED = models.DateTimeField(null=True, blank=True)
+    UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
 
@@ -41,23 +41,23 @@ class oldperson_info(models.Model):
 
 class employee_info(models.Model):
     id = models.IntegerField(primary_key=True)
-    ORG_ID = models.IntegerField(blank=True)
-    CLIENT_ID = models.IntegerField(blank=True)
+    ORG_ID = models.IntegerField(null=True, blank=True)
+    CLIENT_ID = models.IntegerField(null=True, blank=True)
     username = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
-    birthday = models.DateTimeField()
-    hire_date = models.DateTimeField()
-    resign_date = models.DateTimeField()
+    birthday = models.DateTimeField(null=True)
+    hire_date = models.DateTimeField(null=True)
+    resign_date = models.DateTimeField(null=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
-    CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(blank=True)
-    UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(blank=True)
+    CREATED = models.DateTimeField(null=True)
+    CREATEBY = models.IntegerField(null=True, blank=True)
+    UPDATED = models.DateTimeField(null=True)
+    UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
@@ -66,23 +66,23 @@ class employee_info(models.Model):
 
 class volunteer_info(models.Model):
     id = models.IntegerField(primary_key=True)
-    ORG_ID = models.IntegerField(blank=True)
-    CLIENT_ID = models.IntegerField(blank=True)
+    ORG_ID = models.IntegerField(null=True, blank=True)
+    CLIENT_ID = models.IntegerField(null=True, blank=True)
     name = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=5, blank=True) # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True) # 身份证
-    birthday = models.DateTimeField()
-    checkin_date = models.DateTimeField()
-    checkout_date = models.DateTimeField()
+    birthday = models.DateTimeField(null=True)
+    checkin_date = models.DateTimeField(null=True)
+    checkout_date = models.DateTimeField(null=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
-    CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(blank=True)
-    UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(blank=True)
+    CREATED = models.DateTimeField(null=True)
+    CREATEBY = models.IntegerField(null=True, blank=True)
+    UPDATED = models.DateTimeField(null=True)
+    UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
@@ -91,11 +91,11 @@ class volunteer_info(models.Model):
 
 class event_info(models.Model):
     id = models.IntegerField(primary_key=True)
-    event_type = models.IntegerField(blank=True)
-    event_date = models.DateTimeField()
+    event_type = models.IntegerField(null=True, blank=True)
+    event_date = models.DateTimeField(null=True)
     event_location = models.CharField(max_length=200, blank=True)
     event_desc = models.CharField(max_length=200, blank=True)
-    oldperson_id = models.IntegerField(blank=True)
+    oldperson_id = models.IntegerField(null=True, blank=True)
     img_path = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
@@ -104,8 +104,8 @@ class event_info(models.Model):
 
 class sys_user(models.Model):
     id = models.IntegerField(primary_key=True)
-    ORG_ID = models.IntegerField(blank=True)
-    CLIENT_ID = models.IntegerField(blank=True)
+    ORG_ID = models.IntegerField(null=True, blank=True)
+    CLIENT_ID = models.IntegerField(null=True, blank=True)
     UserName = models.CharField(max_length=50, blank=True)
     Password = models.CharField(max_length=50, blank=True)
     REAL_NAME = models.CharField(max_length=50, blank=True)
@@ -115,10 +115,10 @@ class sys_user(models.Model):
     MOBILE = models.CharField(max_length=50, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
-    CREATED = models.DateTimeField()
-    CREATEBY = models.IntegerField(blank=True)
-    UPDATED = models.DateTimeField()
-    UPDATEBY = models.IntegerField(blank=True)
+    CREATED = models.DateTimeField(null=True)
+    CREATEBY = models.IntegerField(null=True, blank=True)
+    UPDATED = models.DateTimeField(null=True)
+    UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
     DATAFILTER = models.CharField(max_length=200, blank=True)
     theme = models.CharField(max_length=45, blank=True)
