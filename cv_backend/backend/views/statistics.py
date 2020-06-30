@@ -48,6 +48,14 @@ class eventList(APIView):
         return Response(serialize.data)
 
     def post(self, request):
+        upload_file = request.FILES['file']
+        request.data.pop('file')
+
+        url = './img/event/'+'ev-' + upload_file.name
+        file = open(url, 'wb+')
+        for chunk in upload_file.chunks():
+            file.write(chunk)
+
         serializer = EventSerializer(data=request.data)
         data = UnJson(request.data)
         try:
@@ -55,12 +63,13 @@ class eventList(APIView):
             try:
                 oldperson = oldperson_info.objects.get(pk=oldperson_id)
             except oldperson_info.DoesNotExist:
-                pass
+                oldperson = None
         except BaseException:
-            print('ku')
+            oldperson = None
         if serializer.is_valid():
             serializer.validated_data['oldperson_id'] = oldperson
-            serializer.save()
+            serializer.validated_data['img_path'] = url
+            # serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

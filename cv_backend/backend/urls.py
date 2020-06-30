@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework.documentation import include_docs_urls
-from .views import base, person, statistics
+from .views import base, person, statistics, views
 
 urlpatterns = [
 
@@ -14,9 +14,9 @@ urlpatterns = [
     # url('base/changeNotify', ),
     # url('base/entryFace', ),
     # url('base/webSocket'),
-    # url('base/upload/avatar', ),
+    url('base/upload/avatar', views.uploadAvatar),
     # url('base/upload/event', ),
-    # url('base/getPhoto/(?P<id>.+)/$', ),
+    url('base/getPhoto/(?P<id>.+)/$',views.getImg ),
 
     # PERSONAL MANAGEMENT 人员管理
 
