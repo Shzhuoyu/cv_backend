@@ -4,11 +4,11 @@ from django.db import models
 # Create your models here.
 
 class oldperson_info(models.Model):
-    ID = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     ORG_ID = models.IntegerField(null=True, blank=True)
     CLIENT_ID = models.IntegerField(null=True, blank=True)
-    username = models.CharField(max_length=50, blank=True)
-    gender = models.CharField(max_length=5, blank=True) # f/m
+    username = models.CharField(max_length=50)
+    gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
     birthday = models.DateTimeField(null=True, blank=True)
@@ -34,16 +34,15 @@ class oldperson_info(models.Model):
     UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
-
     def __str__(self):
         return self.username
 
 
 class employee_info(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     ORG_ID = models.IntegerField(null=True, blank=True)
     CLIENT_ID = models.IntegerField(null=True, blank=True)
-    username = models.CharField(max_length=50, blank=True)
+    username = models.CharField(max_length=50)
     gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
@@ -65,13 +64,13 @@ class employee_info(models.Model):
 
 
 class volunteer_info(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     ORG_ID = models.IntegerField(null=True, blank=True)
     CLIENT_ID = models.IntegerField(null=True, blank=True)
-    name = models.CharField(max_length=50, blank=True)
-    gender = models.CharField(max_length=5, blank=True) # f/m
+    name = models.CharField(max_length=50)
+    gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
-    id_card = models.CharField(max_length=50, blank=True) # 身份证
+    id_card = models.CharField(max_length=50, blank=True)  # 身份证
     birthday = models.DateTimeField(null=True)
     checkin_date = models.DateTimeField(null=True)
     checkout_date = models.DateTimeField(null=True)
@@ -90,24 +89,31 @@ class volunteer_info(models.Model):
 
 
 class event_info(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     event_type = models.IntegerField(null=True, blank=True)
-    event_date = models.DateTimeField(null=True)
+    event_date = models.DateTimeField(null=True,auto_now=True)
     event_location = models.CharField(max_length=200, blank=True)
-    event_desc = models.CharField(max_length=200, blank=True)
-    oldperson_id = models.IntegerField(null=True, blank=True)
+    event_desc = models.CharField(max_length=200, default='')
+    oldperson_id = models.ForeignKey(oldperson_info, on_delete=models.CASCADE,related_name='person',null=True,blank=True)
     img_path = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.event_desc
 
+    @property
+    def oldperson_id_name(self):
+        return self.oldperson_id.username,self.oldperson_id.id
+
+
+class Account(models.Model):
+    username = models.CharField(max_length=50, primary_key=True)
+    password = models.CharField(max_length=255)
+
 
 class sys_user(models.Model):
-    id = models.IntegerField(primary_key=True)
+    account = models.ForeignKey(Account, models.DO_NOTHING,primary_key=True)
     ORG_ID = models.IntegerField(null=True, blank=True)
     CLIENT_ID = models.IntegerField(null=True, blank=True)
-    UserName = models.CharField(max_length=50, blank=True)
-    Password = models.CharField(max_length=50, blank=True)
     REAL_NAME = models.CharField(max_length=50, blank=True)
     SEX = models.CharField(max_length=20, blank=True)
     EMAIL = models.CharField(max_length=50, blank=True)
@@ -115,9 +121,9 @@ class sys_user(models.Model):
     MOBILE = models.CharField(max_length=50, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
-    CREATED = models.DateTimeField(null=True)
+    CREATED = models.DateTimeField(null=True, blank=True)
     CREATEBY = models.IntegerField(null=True, blank=True)
-    UPDATED = models.DateTimeField(null=True)
+    UPDATED = models.DateTimeField(null=True, blank=True)
     UPDATEBY = models.IntegerField(null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
     DATAFILTER = models.CharField(max_length=200, blank=True)
@@ -128,6 +134,7 @@ class sys_user(models.Model):
     appversion = models.CharField(max_length=10, blank=True)
     jsonauth = models.CharField(max_length=1000, blank=True)
 
-    def __str__(self):
-        return self.UserName
+    # def __str__(self):
+    #     return self.REAL_NAME
+
 
