@@ -11,9 +11,9 @@ class oldperson_info(models.Model):
     gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
-    birthday = models.DateTimeField(null=True, blank=True)
-    checkin_date = models.DateTimeField(null=True, blank=True)
-    checkout_data = models.DateTimeField(null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
+    checkin_date = models.DateField(null=True, blank=True)
+    checkout_data = models.DateField(null=True, blank=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     room_number = models.CharField(max_length=50, blank=True)
@@ -46,9 +46,9 @@ class employee_info(models.Model):
     gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
-    birthday = models.DateTimeField(null=True)
-    hire_date = models.DateTimeField(null=True)
-    resign_date = models.DateTimeField(null=True)
+    birthday = models.DateField(null=True)
+    hire_date = models.DateField(null=True)
+    resign_date = models.DateField(null=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
@@ -71,9 +71,9 @@ class volunteer_info(models.Model):
     gender = models.CharField(max_length=5, blank=True)  # f/m
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
-    birthday = models.DateTimeField(null=True)
-    checkin_date = models.DateTimeField(null=True)
-    checkout_date = models.DateTimeField(null=True)
+    birthday = models.DateField(null=True)
+    checkin_date = models.DateField(null=True)
+    checkout_date = models.DateField(null=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
@@ -91,7 +91,7 @@ class volunteer_info(models.Model):
 class event_info(models.Model):
     id = models.AutoField(primary_key=True)
     event_type = models.IntegerField(null=True, blank=True)
-    event_date = models.DateTimeField(null=True,auto_now=True)
+    event_date = models.DateField(null=True,auto_now=True)
     event_location = models.CharField(max_length=200, blank=True)
     event_desc = models.CharField(max_length=200, default='')
     oldperson_id = models.ForeignKey(oldperson_info, on_delete=models.CASCADE,related_name='person',null=True,blank=True)

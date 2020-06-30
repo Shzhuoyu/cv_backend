@@ -1,4 +1,5 @@
 from .cookie import *
+import datetime
 from .unjson import UnJson
 from rest_framework.views import APIView
 from rest_framework import status, generics
@@ -35,13 +36,20 @@ def checkToken(data):
 #     serializer_class = EventSerializer
 
 class eventList(APIView):
-    def get(self,request):
-        serialize = EventSerializer(event_info.objects.all(),many=True)
+    """
+    get:
+    事件列表
+    post:
+    添加事件
+    """
+
+    def get(self, request):
+        serialize = EventSerializer(event_info.objects.all(), many=True)
         return Response(serialize.data)
 
-    def post(self,request):
+    def post(self, request):
         serializer = EventSerializer(data=request.data)
-        data =UnJson(request.data)
+        data = UnJson(request.data)
         try:
             oldperson_id = data.oldperson_id
             try:
@@ -55,3 +63,30 @@ class eventList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def oldManTotal(request):
+    """
+    老人统计
+    :param request:
+    :return:
+    """
+    yearList = list(map(datetime.timedelta, [60, 70, 80, 90]))
+    today = datetime.date.today()
+    total = oldperson_info.objects.count()
+    age = [
+        oldperson_info.objects.filter(birthday__gt=today - yearList[0]).count(),
+        oldperson_info.objects.filter(birthday__in=[today - yearList[0], today - yearList[1]]).count(),
+        oldperson_info.objects.filter(birthday__in=[today - yearList[1], today - yearList[2]]).count(),
+        oldperson_info.objects.filter(birthday__in=[today - yearList[2], today - yearList[3]]).count(),
+        oldperson_info.objects.filter(birthday__lt=today - yearList[3]).count()]
+
+    labels = ['<60岁', '60~70岁', '60~70岁', '60~70岁', '>90岁']
+    obj = {
+        'total': total,
+        'age': age,
+        'labels': labels
+    }
+
+    return HttpResponse(json.dumps(obj, ensure_ascii=False))
