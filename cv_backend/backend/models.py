@@ -85,7 +85,7 @@ class volunteer_info(models.Model):
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.username
 
 
 class event_info(models.Model):
