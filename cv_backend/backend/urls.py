@@ -24,11 +24,11 @@ urlpatterns = [
     url('person/oldManList', person.oldManList.as_view()),
     url('person/oldManDetail', person.oldManDetail.as_view()),
     #   Employee  员工
-    url('person/employeeList', person.employeeList),
-    url('person/employeeDetail', person.employeeDetail),
+    url('person/employeeList', person.employeeList.as_view()),
+    url('person/employeeDetail', person.employeeDetail.as_view()),
     #   Volunteer  义工
-    url('person/volunteerList', person.volunteerList),
-    url('person/volunteerDetail', person.volunteerDetail),
+    url('person/volunteerList', person.volunteerList.as_view()),
+    url('person/volunteerDetail', person.volunteerDetail.as_view()),
 
     # EVENT 事件
     url('event/list', statistics.eventList.as_view()),
