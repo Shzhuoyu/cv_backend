@@ -47,8 +47,8 @@ class employee_info(models.Model):
     phone = models.CharField(max_length=50, blank=True)
     id_card = models.CharField(max_length=50, blank=True)  # 身份证
     birthday = models.DateField(null=True, blank=True)
-    hire_date = models.DateField(null=True, blank=True)
-    resign_date = models.DateField(null=True, blank=True)
+    checkin_date = models.DateField(null=True, blank=True)
+    checkout_data = models.DateField(null=True, blank=True)
     imgset_dir = models.CharField(max_length=200, blank=True)
     profile_photo = models.CharField(max_length=200, blank=True)
     DESCRIPTION = models.CharField(max_length=200, blank=True)
