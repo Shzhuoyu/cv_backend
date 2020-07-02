@@ -137,6 +137,6 @@ class SysUserDetail(APIView):
         if serializer.is_valid():
             serializer.validated_data['account'] = user
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(json.dumps({'code':200,'mes':'修改成功'},ensure_ascii=False))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
