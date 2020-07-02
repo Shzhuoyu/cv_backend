@@ -4,10 +4,10 @@ from .unjson import UnJson
 from rest_framework.views import APIView
 from rest_framework import status, generics
 from django.http import Http404
-
+from django.db.models import Q, Count
 import json
 
-from ..models import oldperson_info, volunteer_info, employee_info, event_info
+from ..models import oldperson_info, volunteer_info, employee_info, event_info,sys_user
 from ..serializer import OldPersonSerializer, VolunteerSerializer, EmployeeSerializer, EventSerializer
 
 from rest_framework.decorators import api_view
@@ -93,7 +93,7 @@ def allTotal(request):
 @api_view(['GET'])
 def oldManAge(request):
     """老人年龄区间"""
-    yearList = list(map(datetime.timedelta, [60, 70, 80, 90]))
+    yearList = list(map(datetime.timedelta, [60, 70, 80, 90] * 365))
     today = datetime.date.today()
     age = [
         oldperson_info.objects.filter(birthday__gt=today - yearList[0]).count(),
@@ -146,3 +146,14 @@ def dailyEvent(request):
         smitem.append(event_info.objects.filter(event_date=date, event_type=4).count())
         bigList.append(smitem)
     return HttpResponse(json.dumps(bigList, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def smileStar(request):
+    date = datetime.date.today() - datetime.timedelta(days=7)
+    # oldList=oldperson_info.objects.annotate(num_event=Count('event_info',
+    #                                                 filter=Q(event_info__event_type=0,event_info__event_date__gt=date))).order_by('-num_event')[:5]
+    list = sys_user.objects.annotate(num_event=Count('account'))
+
+    print(list)
+    return HttpResponse(date)
