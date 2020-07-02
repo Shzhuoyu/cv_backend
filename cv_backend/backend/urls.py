@@ -16,7 +16,7 @@ urlpatterns = [
     # url('base/webSocket'),
     url('base/upload/avatar', views.uploadAvatar),
     # url('base/upload/event', ),
-    url('base/getPhoto/(?P<id>.+)/$',views.getImg ),
+    url('base/getPhoto/(?P<id>.+)/$', views.getImg),
 
     # PERSONAL MANAGEMENT 人员管理
 
@@ -34,10 +34,10 @@ urlpatterns = [
     url('event/list', statistics.eventList.as_view()),
 
     # STATISTICS 统计报表
-    url('statistics/all', statistics.oldManTotal),  # 所有人员的统计
-    # url('statistics/age',),   # 按老人年龄区间
-    # url('statistics/emotion',),
-    # url('statistics/fall',),
-    # url('statistics/foreign')
+    url('statistics/all', statistics.allTotal),  # 所有人员的统计
+    url('statistics/age', statistics.oldManAge),  # 按老人年龄区间
+    url('statistics/event', statistics.todayEvent),  # 一周五个时事件总和
+    url('statistics/dailyEvent',statistics.dailyEvent),  #   事件走势
+    # url('statistics/smileOld') #   微笑之星
 
 ]

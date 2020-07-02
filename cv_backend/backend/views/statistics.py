@@ -51,7 +51,7 @@ class eventList(APIView):
         upload_file = request.FILES['file']
         request.data.pop('file')
 
-        url = './img/event/'+'ev-' + upload_file.name
+        url = './img/event/' + 'ev-' + upload_file.name
         file = open(url, 'wb+')
         for chunk in upload_file.chunks():
             file.write(chunk)
@@ -75,27 +75,72 @@ class eventList(APIView):
 
 
 @api_view(['GET'])
-def oldManTotal(request):
+def allTotal(request):
     """
-    老人统计
-    :param request:
-    :return:
+    人员统计
     """
+    old = oldperson_info.objects.count()
+    employee = employee_info.objects.count()
+    volunteer = volunteer_info.objects.count()
+    obj = {
+        'old': old,
+        'employee': employee,
+        'volunteer': volunteer
+    }
+    return HttpResponse(json.dumps(obj, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def oldManAge(request):
     yearList = list(map(datetime.timedelta, [60, 70, 80, 90]))
     today = datetime.date.today()
-    total = oldperson_info.objects.count()
     age = [
         oldperson_info.objects.filter(birthday__gt=today - yearList[0]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[0], today - yearList[1]]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[1], today - yearList[2]]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[2], today - yearList[3]]).count(),
         oldperson_info.objects.filter(birthday__lt=today - yearList[3]).count()]
-
     labels = ['<60岁', '60~70岁', '60~70岁', '60~70岁', '>90岁']
     obj = {
-        'total': total,
         'age': age,
         'labels': labels
     }
-
     return HttpResponse(json.dumps(obj, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def todayEvent(request):
+    today = datetime.date.today()
+    smile = event_info.objects.filter(event_date=today,event_type=0).count()
+    communication = event_info.objects.filter(event_date=today, event_type=1).count()
+    stranger = event_info.objects.filter(event_date=today, event_type=2).count()
+    fall = event_info.objects.filter(event_date=today, event_type=3).count()
+    forbid = event_info.objects.filter(event_date=today, event_type=4).count()
+
+    obj = {
+        'smile': smile,
+        'communication': communication,
+        'stranger': stranger,
+        'fall': fall,
+        'forbid': forbid,
+    }
+    return HttpResponse(json.dumps(obj, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def dailyEvent(request):
+    bigList=[]
+    today = datetime.date.today()
+    dayList = list(map(datetime.timedelta, list(range(0, 7))))
+    for item in dayList:
+        smitem = []
+        date = today - item
+        smitem.append(str(date))
+        smitem.append(event_info.objects.filter(event_date=date, event_type=0).count())
+        smitem.append(event_info.objects.filter(event_date=date, event_type=1).count())
+        smitem.append(event_info.objects.filter(event_date=date, event_type=2).count())
+        smitem.append(event_info.objects.filter(event_date=date, event_type=3).count())
+        smitem.append(event_info.objects.filter(event_date=date, event_type=4).count())
+        bigList.append(smitem)
+    return HttpResponse(json.dumps(bigList, ensure_ascii=False))
+
