@@ -113,26 +113,26 @@ def oldManAge(request):
 def todayEvent(request):
     """今日事件"""
     today = datetime.date.today()
-    smile = event_info.objects.filter(event_date=today,event_type=0).count()
+    smile = event_info.objects.filter(event_date=today, event_type=0).count()
     communication = event_info.objects.filter(event_date=today, event_type=1).count()
     stranger = event_info.objects.filter(event_date=today, event_type=2).count()
     fall = event_info.objects.filter(event_date=today, event_type=3).count()
     forbid = event_info.objects.filter(event_date=today, event_type=4).count()
 
-    obj = {
-        'smile': smile,
-        'communication': communication,
-        'stranger': stranger,
-        'fall': fall,
-        'forbid': forbid,
-    }
+    obj = [
+        ['老人微笑', smile]
+        ['老人互动', communication]
+        ['陌生人来访', stranger]
+        ['老人摔倒', fall]
+        ['禁区入侵', forbid]
+    ]
     return HttpResponse(json.dumps(obj, ensure_ascii=False))
 
 
 @api_view(['GET'])
 def dailyEvent(request):
     """七日事件"""
-    bigList=[]
+    bigList = []
     today = datetime.date.today()
     dayList = list(map(datetime.timedelta, list(range(0, 7))))
     for item in dayList:
@@ -146,4 +146,3 @@ def dailyEvent(request):
         smitem.append(event_info.objects.filter(event_date=date, event_type=4).count())
         bigList.append(smitem)
     return HttpResponse(json.dumps(bigList, ensure_ascii=False))
-
