@@ -92,6 +92,7 @@ def allTotal(request):
 
 @api_view(['GET'])
 def oldManAge(request):
+    """老人年龄区间"""
     yearList = list(map(datetime.timedelta, [60, 70, 80, 90]))
     today = datetime.date.today()
     age = [
@@ -110,6 +111,7 @@ def oldManAge(request):
 
 @api_view(['GET'])
 def todayEvent(request):
+    """今日事件"""
     today = datetime.date.today()
     smile = event_info.objects.filter(event_date=today,event_type=0).count()
     communication = event_info.objects.filter(event_date=today, event_type=1).count()
@@ -129,6 +131,7 @@ def todayEvent(request):
 
 @api_view(['GET'])
 def dailyEvent(request):
+    """七日事件"""
     bigList=[]
     today = datetime.date.today()
     dayList = list(map(datetime.timedelta, list(range(0, 7))))
