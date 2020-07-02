@@ -138,6 +138,7 @@ def dailyEvent(request):
     for item in dayList:
         smitem = []
         date = today - item
+        print(date)
         smitem.append(str(date))
         smitem.append(event_info.objects.filter(event_date=date, event_type=0).count())
         smitem.append(event_info.objects.filter(event_date=date, event_type=1).count())
@@ -153,7 +154,7 @@ def smileStar(request):
     date = datetime.date.today() - datetime.timedelta(days=7)
     # oldList=oldperson_info.objects.annotate(num_event=Count('event_info',
     #                                                 filter=Q(event_info__event_type=0,event_info__event_date__gt=date))).order_by('-num_event')[:5]
-    list = sys_user.objects.annotate(num_event=Count('account'))
-
+    # list = sys_user.objects.annotate(num_event=Count('account'))
+    pubs = oldperson_info.objects.annotate(nums= Count('event_info'))
     print(list)
     return HttpResponse(date)
