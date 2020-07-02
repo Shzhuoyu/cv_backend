@@ -126,8 +126,8 @@ class SysUserDetail(APIView):
 
     def put(self,request, formant=None):
         data = UnJson(request.data)
-        self.checkToken(data)
-        user_info = self.getInfo(data.username)
+        # self.checkToken(data)
+        user_info = self.getInfo(data.account)
         serializer = SysUserSerializer(user_info,data=request.data)
         if serializer.is_valid():
             serializer.save()
