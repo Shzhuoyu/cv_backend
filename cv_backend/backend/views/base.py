@@ -115,22 +115,27 @@ class SysUserDetail(APIView):
         try:
             user = Account.objects.get(pk=username)
             user_info = sys_user.objects.get(pk=user)
-            return user_info
+            return user, user_info
         except Account.DoesNotExist or sys_user.DoesNotExist:
             raise Http404('账户不合法')
 
     def post(self, request, formant=None):
         data = UnJson(request.data)
-        user_info = self.getInfo(data.username)
+        user, user_info = self.getInfo(data.username)
         serializer = SysUserSerializer(user_info)
         return Response(serializer.data)
 
     def put(self,request, formant=None):
         data = UnJson(request.data)
         # self.checkToken(data)
-        user_info = self.getInfo(data.account)
+        print(request.data)
+
+        user, user_info = self.getInfo(data.account)
+
+        # print(request.data['account'])
         serializer = SysUserSerializer(user_info,data=request.data)
         if serializer.is_valid():
+            serializer.validated_data['account'] = user
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
