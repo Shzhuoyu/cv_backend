@@ -71,7 +71,8 @@ class AccountDetail(APIView):
             a = serializer.save()  # 顺便添加一个资料对象
             user = sys_user(account=a)
             user.save()
-            return Response('注册成功', status=status.HTTP_201_CREATED)
+            res = {'code':200,'message':'注册成功'}
+            return HttpResponse(json.dumps(res,ensure_ascii=False))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
