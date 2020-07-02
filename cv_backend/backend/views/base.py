@@ -78,6 +78,7 @@ class AccountDetail(APIView):
     def put(self, request, format=None):
         data = UnJson(request.data)
         self.checkToken(data)
+        request.data.pop('token')
         try:
             user = Account.objects.get(pk=data.username)
         except Account.DoesNotExist:

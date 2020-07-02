@@ -56,6 +56,7 @@ class oldManDetail(APIView):
     def post(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         oldMan = self.get_object(data.id)
         serializer = OldPersonSerializer(oldMan)
         return Response(serializer.data)
@@ -63,6 +64,7 @@ class oldManDetail(APIView):
     def put(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         oldMan = self.get_object(data.id)
         serializer = OldPersonSerializer(oldMan,data= request.data)
         if serializer.is_valid():
@@ -73,6 +75,7 @@ class oldManDetail(APIView):
     def delete(self,request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         oldMan = self.get_object(data.id)
         oldMan.delete()
         return Response('老人删除成功', status=status.HTTP_204_NO_CONTENT)
@@ -108,6 +111,7 @@ class employeeDetail(APIView):
     def post(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         employee = self.get_object(data.id)
         serializer = EmployeeSerializer(employee)
         return Response(serializer.data)
@@ -115,6 +119,7 @@ class employeeDetail(APIView):
     def put(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         employee = self.get_object(data.id)
         serializer = OldPersonSerializer(employee,data= request.data)
         if serializer.is_valid():
@@ -125,6 +130,7 @@ class employeeDetail(APIView):
     def delete(self,request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         employee = self.get_object(data.id)
         employee.delete()
         return Response('员工删除成功', status=status.HTTP_204_NO_CONTENT)
@@ -160,6 +166,7 @@ class volunteerDetail(APIView):
     def post(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         volunteer = self.get_object(data.id)
         serializer = VolunteerSerializer(volunteer)
         return Response(serializer.data)
@@ -167,6 +174,7 @@ class volunteerDetail(APIView):
     def put(self, request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         volunteer = self.get_object(data.id)
         serializer = EmployeeSerializer(volunteer,data= request.data)
         if serializer.is_valid():
@@ -177,6 +185,7 @@ class volunteerDetail(APIView):
     def delete(self,request, formant=None):
         data = UnJson(request.data)
         checkToken(data)
+        request.data.pop('token')
         volunteer = self.get_object(data.id)
         volunteer.delete()
         return Response('义工删除成功', status=status.HTTP_204_NO_CONTENT)
