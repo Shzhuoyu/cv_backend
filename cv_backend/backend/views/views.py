@@ -62,7 +62,8 @@ def uploadAvatar(request):
         file.write(chunk)
 
     obj.profile_photo = url
-    serializer.save()
+    if serializer.is_valid():
+        serializer.save()
 
     return Response(serializer.data)
 
