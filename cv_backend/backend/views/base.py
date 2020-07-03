@@ -77,17 +77,18 @@ class AccountDetail(APIView):
 
     def put(self, request, format=None):
         data = UnJson(request.data)
+        print(data)
         self.checkToken(data)
         try:
             user = Account.objects.get(pk=data.username)
         except Account.DoesNotExist:
             raise Http404
+
+        print(user)
         if data.oldPassword == user.password:
             pass
         else:
             return HttpResponse(json.dumps({'msg':'原密码错误'}, ensure_ascii=False))
-        print('okkk')
-        print('okkk2')
         serializer = AccountSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
