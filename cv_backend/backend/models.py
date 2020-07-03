@@ -29,9 +29,9 @@ class oldperson_info(models.Model):
     DESCRIPTION = models.CharField(max_length=50, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
     CREATED = models.DateTimeField(null=True, blank=True)
-    CREATEBY = models.IntegerField(null=True, blank=True)
+    CREATEBY = models.CharField(max_length=50, null=True, blank=True)
     UPDATED = models.DateTimeField(null=True, blank=True)
-    UPDATEBY = models.IntegerField(null=True, blank=True)
+    UPDATEBY = models.CharField(max_length=50, null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
@@ -54,9 +54,9 @@ class employee_info(models.Model):
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
     CREATED = models.DateTimeField(null=True, blank=True)
-    CREATEBY = models.IntegerField(null=True, blank=True)
+    CREATEBY = models.CharField(max_length=50, null=True, blank=True)
     UPDATED = models.DateTimeField(null=True, blank=True)
-    UPDATEBY = models.IntegerField(null=True, blank=True)
+    UPDATEBY = models.CharField(max_length=50, null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
@@ -79,9 +79,9 @@ class volunteer_info(models.Model):
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
     CREATED = models.DateTimeField(null=True, blank=True)
-    CREATEBY = models.IntegerField(null=True, blank=True)
+    CREATEBY = models.CharField(max_length=50, null=True, blank=True)
     UPDATED = models.DateTimeField(null=True, blank=True)
-    UPDATEBY = models.IntegerField(null=True, blank=True)
+    UPDATEBY = models.CharField(max_length=50, null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
 
     def __str__(self):
@@ -122,9 +122,9 @@ class sys_user(models.Model):
     DESCRIPTION = models.CharField(max_length=200, blank=True)
     ISACTIVE = models.CharField(max_length=10, blank=True)
     CREATED = models.DateTimeField(null=True, blank=True)
-    CREATEBY = models.IntegerField(null=True, blank=True)
+    CREATEBY = models.CharField(max_length=50, null=True, blank=True)
     UPDATED = models.DateTimeField(null=True, blank=True)
-    UPDATEBY = models.IntegerField(null=True, blank=True)
+    UPDATEBY = models.CharField(max_length=50, null=True, blank=True)
     REMOVE = models.CharField(max_length=1, blank=True)
     DATAFILTER = models.CharField(max_length=200, blank=True)
     theme = models.CharField(max_length=45, blank=True)
