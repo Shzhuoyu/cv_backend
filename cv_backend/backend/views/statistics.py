@@ -154,6 +154,8 @@ def smileStar(request):
     # oldList=oldperson_info.objects.annotate(num_event=Count('event_info',
     #                                                 filter=Q(event_info__event_type=0,event_info__event_date__gt=date))).order_by('-num_event')[:5]
     # list = sys_user.objects.annotate(num_event=Count('account'))
-    pubs = oldperson_info.objects.annotate(nums= Count('event_info'))
-    print(list)
+    # pubs = oldperson_info.objects.annotate(nums= Count('event_info'))
+    # print(pubs)
+    pubs = event_info.objects.annotate(nums=Count('oldperson_id'))
+    print(pubs)
     return HttpResponse(date)
