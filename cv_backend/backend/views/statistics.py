@@ -138,7 +138,6 @@ def dailyEvent(request):
     for item in dayList:
         smitem = []
         date = today - item
-        print(date)
         smitem.append(str(date))
         smitem.append(event_info.objects.filter(event_date=date, event_type=0).count())
         smitem.append(event_info.objects.filter(event_date=date, event_type=1).count())
