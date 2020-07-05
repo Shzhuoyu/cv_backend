@@ -208,6 +208,7 @@ def oldAnalysis(request):
     result={}
     data = UnJson(request.data)
     Old = oldperson_info.objects.get(pk=data.id)
+    result['name']=Old.username
 
     date7 = datetime.date.today() - datetime.timedelta(days=7)
     eventList = event_info.objects.filter(event_date__gt=date7,oldperson_id = Old)
