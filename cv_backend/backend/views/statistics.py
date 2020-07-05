@@ -95,8 +95,7 @@ def oldManAge(request):
     """老人年龄区间"""
     yearList = list(map(datetime.timedelta, [60* 365, 70* 365, 80* 365, 90* 365] ))
     today = datetime.date.today()
-    for item in range(len(yearList)):
-        print(today-yearList[item])
+
     age = [
         oldperson_info.objects.filter(birthday__gt=today - yearList[0]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[0], today - yearList[1]]).count(),
@@ -104,9 +103,13 @@ def oldManAge(request):
         oldperson_info.objects.filter(birthday__in=[today - yearList[2], today - yearList[3]]).count(),
         oldperson_info.objects.filter(birthday__lt=today - yearList[3]).count()]
     labels = ['<60岁', '60~70岁', '60~70岁', '60~70岁', '>90岁']
+    bigList=[]
+
+    for item in range(len(age)):
+        bigList.append([labels[item],age[item]])
+
     obj = {
-        'age': age,
-        'labels': labels
+        'data':bigList
     }
     return HttpResponse(json.dumps(obj, ensure_ascii=False))
 
