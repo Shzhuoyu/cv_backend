@@ -37,7 +37,9 @@ urlpatterns = [
     url('statistics/all', statistics.allTotal),  # 所有人员的统计
     url('statistics/age', statistics.oldManAge),  # 按老人年龄区间
     url('statistics/event', statistics.todayEvent),  # 一周五个时事件总和
-    url('statistics/dailyEvent',statistics.dailyEvent),  # 事件走势
-    url('statistics/smileOld',statistics.smileStar) #   微笑之星
+    url('statistics/dailyEvent', statistics.dailyEvent),  # 事件走势
+    url('statistics/smileOld', statistics.smileStar),  # 微笑之星
+    url('statistics/communicateOld', statistics.communicateStar),  # 交际之星
+    url('statistics/oldAnalysis', statistics.oldAnalysis),  # 老人分析
 
 ]

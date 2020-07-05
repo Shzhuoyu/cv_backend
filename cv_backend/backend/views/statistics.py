@@ -7,7 +7,7 @@ from django.http import Http404
 from django.db.models import Q, Count
 import json
 
-from ..models import oldperson_info, volunteer_info, employee_info, event_info,sys_user
+from ..models import oldperson_info, volunteer_info, employee_info, event_info, sys_user
 from ..serializer import OldPersonSerializer, VolunteerSerializer, EmployeeSerializer, EventSerializer
 
 from rest_framework.decorators import api_view
@@ -150,12 +150,77 @@ def dailyEvent(request):
 
 @api_view(['GET'])
 def smileStar(request):
+    """
+    微笑之星
+    :param request:
+    :return:
+    """
     date = datetime.date.today() - datetime.timedelta(days=7)
-    # oldList=oldperson_info.objects.annotate(num_event=Count('event_info',
-    #                                                 filter=Q(event_info__event_type=0,event_info__event_date__gt=date))).order_by('-num_event')[:5]
-    # list = sys_user.objects.annotate(num_event=Count('account'))
-    # pubs = oldperson_info.objects.annotate(nums= Count('event_info'))
-    # print(pubs)
-    pubs = event_info.objects.annotate(nums=Count('oldperson_id'))
-    print(pubs)
-    return HttpResponse(date)
+    oldList = oldperson_info.objects.annotate(num_event=Count('person',
+                                                              filter=Q(person__event_type=0,
+                                                                       person__event_date__gt=date))).order_by(
+        '-num_event')[:5]
+    result = []
+    for item in oldList:
+        small = []
+        small.append(item.username)
+        small.append(item.num_event)
+        result.append(small)
+
+    # 这里得到的是微笑前五
+    # pubs = oldperson_info.objects.annotate(nums= Count('person'))
+
+    return HttpResponse(json.dumps(result, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def communicateStar(request):
+    """
+    交际花
+    :param request:
+    :return:
+    """
+    date = datetime.date.today() - datetime.timedelta(days=7)
+    oldList = oldperson_info.objects.annotate(num_event=Count('person',
+                                                              filter=Q(person__event_type=1,
+                                                                       person__event_date__gt=date))).order_by(
+        '-num_event')[:5]
+    result = []
+    for item in oldList:
+        small = []
+        small.append(item.username)
+        small.append(item.num_event)
+        result.append(small)
+
+    # 这里得到的是微笑前五
+    # pubs = oldperson_info.objects.annotate(nums= Count('person'))
+
+    return HttpResponse(json.dumps(result, ensure_ascii=False))
+
+
+@api_view(['POST'])
+def oldAnalysis(request):
+    """
+    一个老人过去七天的全方面分析
+    :param request: id:老人id
+    :return:
+    """
+    result={}
+    data = UnJson(request.data)
+    Old = oldperson_info.objects.get(pk=data.id)
+
+    date7 = datetime.date.today() - datetime.timedelta(days=7)
+    eventList = event_info.objects.filter(event_date__gt=date7,oldperson_id = Old)
+    result['total'] = {'smile':eventList.filter(event_type=0).count(),'communicate':eventList.filter(event_type=1).count()}
+    bigList = []
+    today = datetime.date.today()
+    dayList = list(map(datetime.timedelta, list(range(0, 7))))
+    for item in dayList:
+        smitem = []
+        date = today - item
+        smitem.append(str(date))
+        smitem.append(eventList.filter(event_date=date, event_type=0).count())
+        smitem.append(eventList.filter(event_date=date, event_type=1).count())
+        bigList.append(smitem)
+    result['detail'] = bigList
+    return HttpResponse(json.dumps(result, ensure_ascii=False))
