@@ -102,7 +102,7 @@ def oldManAge(request):
         oldperson_info.objects.filter(birthday__in=[today - yearList[1], today - yearList[2]]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[2], today - yearList[3]]).count(),
         oldperson_info.objects.filter(birthday__lt=today - yearList[3]).count()]
-    labels = ['<60岁', '60~70岁', '60~70岁', '60~70岁', '>90岁']
+    labels = ['<60岁', '60~70岁', '70~80岁', '80~90岁', '>90岁']
     bigList=[]
 
     for item in range(len(age)):
