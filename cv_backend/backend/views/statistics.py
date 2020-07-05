@@ -93,8 +93,10 @@ def allTotal(request):
 @api_view(['GET'])
 def oldManAge(request):
     """老人年龄区间"""
-    yearList = list(map(datetime.timedelta, [60, 70, 80, 90] * 365))
+    yearList = list(map(datetime.timedelta, [60* 365, 70* 365, 80* 365, 90* 365] ))
     today = datetime.date.today()
+    for item in range(len(yearList)):
+        print(today-yearList[item])
     age = [
         oldperson_info.objects.filter(birthday__gt=today - yearList[0]).count(),
         oldperson_info.objects.filter(birthday__in=[today - yearList[0], today - yearList[1]]).count(),
