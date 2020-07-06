@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework.documentation import include_docs_urls
-from .views import base, person, statistics, views
+from .views import base, person, statistics, views,websocket
 
 urlpatterns = [
 
@@ -41,5 +41,10 @@ urlpatterns = [
     url('statistics/smileOld', statistics.smileStar),  # 微笑之星
     url('statistics/communicateOld', statistics.communicateStar),  # 交际之星
     url('statistics/oldAnalysis', statistics.oldAnalysis),  # 老人分析
+
+    # WEBSOCKET
+    url('websocket/link', websocket.link),
+    url('websocket/send', websocket.send),
+    url('websocket/refresh',websocket.refresh)
 
 ]

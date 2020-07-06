@@ -6,6 +6,7 @@ from rest_framework import status, generics
 from django.http import Http404
 from django.db.models import Q, Count
 import json
+from .websocket import refresh
 
 from ..models import oldperson_info, volunteer_info, employee_info, event_info, sys_user
 from ..serializer import OldPersonSerializer, VolunteerSerializer, EmployeeSerializer, EventSerializer
@@ -70,6 +71,7 @@ class eventList(APIView):
             serializer.validated_data['oldperson_id'] = oldperson
             serializer.validated_data['img_path'] = url
             serializer.save()
+            refresh()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
