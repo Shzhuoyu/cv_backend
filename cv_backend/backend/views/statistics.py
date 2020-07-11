@@ -1,3 +1,4 @@
+import io
 from .cookie import *
 import datetime
 from .unjson import UnJson
@@ -7,7 +8,8 @@ from django.http import Http404
 from django.db.models import Q, Count
 import json
 from .websocket import refresh
-
+from xlwt import *
+import os
 from ..models import oldperson_info, volunteer_info, employee_info, event_info, sys_user
 from ..serializer import OldPersonSerializer, VolunteerSerializer, EmployeeSerializer, EventSerializer
 
@@ -95,7 +97,7 @@ def allTotal(request):
 @api_view(['GET'])
 def oldManAge(request):
     """老人年龄区间"""
-    yearList = list(map(datetime.timedelta, [60* 365, 70* 365, 80* 365, 90* 365] ))
+    yearList = list(map(datetime.timedelta, [60 * 365, 70 * 365, 80 * 365, 90 * 365]))
     today = datetime.date.today()
 
     age = [
@@ -106,13 +108,13 @@ def oldManAge(request):
         oldperson_info.objects.filter(birthday__lt=today - yearList[3]).count()]
 
     labels = ['<60岁', '60~70岁', '70~80岁', '80~90岁', '>90岁']
-    bigList=[]
+    bigList = []
 
     for item in range(len(age)):
-        bigList.append([labels[item],age[item]])
+        bigList.append([labels[item], age[item]])
 
     obj = {
-        'data':bigList
+        'data': bigList
     }
     return HttpResponse(json.dumps(obj, ensure_ascii=False))
 
@@ -213,14 +215,15 @@ def oldAnalysis(request):
     :param request: id:老人id
     :return:
     """
-    result={}
+    result = {}
     data = UnJson(request.data)
     Old = oldperson_info.objects.get(pk=data.id)
-    result['name']=Old.username
+    result['name'] = Old.username
 
     date7 = datetime.date.today() - datetime.timedelta(days=7)
-    eventList = event_info.objects.filter(event_date__gt=date7,oldperson_id = Old)
-    result['total'] = {'smile':eventList.filter(event_type=0).count(),'communicate':eventList.filter(event_type=1).count()}
+    eventList = event_info.objects.filter(event_date__gt=date7, oldperson_id=Old)
+    result['total'] = {'smile': eventList.filter(event_type=0).count(),
+                       'communicate': eventList.filter(event_type=1).count()}
     bigList = []
     today = datetime.date.today()
     dayList = list(map(datetime.timedelta, list(range(0, 7))))
@@ -233,3 +236,67 @@ def oldAnalysis(request):
         bigList.append(smitem)
     result['detail'] = bigList
     return HttpResponse(json.dumps(result, ensure_ascii=False))
+
+
+@api_view(['GET'])
+def exportExcel(request):
+    """
+    导出excel表格
+    :param request:
+    :return:
+    """
+    list_obj = event_info.objects.all().order_by("event_date")
+    if list_obj:
+        # 创建工作薄
+        ws = Workbook(encoding='utf-8')
+        w = ws.add_sheet(u"数据报表第一页")
+        w.write(0, 0, "id")
+        w.write(0, 1, u"事件类型")
+        w.write(0, 2, u"时间")
+        w.write(0, 3, u"地点")
+        w.write(0, 4, u"描述")
+        w.write(0, 5, u"事件老人")
+        # 写入数据
+        excel_row = 1
+        for obj in list_obj:
+            data_id = obj.id
+            if obj.event_type == 0:
+                event_type = '微笑'
+            elif obj.event_type == 1:
+                event_type = '交互'
+            elif obj.event_type == 2:
+                event_type = '摔倒'
+            elif obj.event_type == 3:
+                event_type = '禁止'
+            event_date = obj.event_date.strftime('%Y-%m-%d')
+            event_location = obj.event_location
+            event_desc = obj.event_desc
+            if obj.oldperson_id:
+                oldperson_id = obj.oldperson_id.username
+            else:
+                oldperson_id = ''
+            w.write(excel_row, 0, data_id)
+            w.write(excel_row, 1, event_type)
+            w.write(excel_row, 2, event_date)
+            w.write(excel_row, 3, event_location)
+            w.write(excel_row, 4, event_desc)
+            w.write(excel_row, 5, oldperson_id)
+            excel_row += 1
+            # 检测文件是够存在
+            # 方框中代码是保存本地文件使用，如不需要请删除该代码
+            ###########################
+        exist_file = os.path.exists("事件报表.xls")
+        if exist_file:
+            os.remove(r"事件报表.xls")
+        ws.save("事件报表.xls")
+        ############################
+        sio = io.BytesIO()
+        ws.save(sio)
+        sio.seek(0)
+        response = HttpResponse(content_type='application/octet-stream')
+        response['Content-Disposition'] = 'filename=event.xls'
+        response.write(sio.getvalue())
+        return response
+
+
+

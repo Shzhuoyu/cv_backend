@@ -1,3 +1,4 @@
+xlwt
 PIL
 Django==2.2.6
 django-cors-headers==3.1.1

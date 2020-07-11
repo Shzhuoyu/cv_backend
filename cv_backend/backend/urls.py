@@ -35,6 +35,7 @@ urlpatterns = [
 
     # STATISTICS 统计报表
     url('statistics/all', statistics.allTotal),  # 所有人员的统计
+    url('statistics/excel',statistics.exportExcel),  # 导出excel
     url('statistics/age', statistics.oldManAge),  # 按老人年龄区间
     url('statistics/event', statistics.todayEvent),  # 一周五个时事件总和
     url('statistics/dailyEvent', statistics.dailyEvent),  # 事件走势
