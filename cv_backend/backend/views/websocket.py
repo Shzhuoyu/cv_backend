@@ -93,7 +93,10 @@ def entering(request):
     data = UnJson(request.data)
     msg = {
         'todo': 'entering',
-        'data': data
+        'data': {
+            'id': data.id,
+            'type': data.type
+        }
     }
 
     for camera in cameras:
@@ -145,7 +148,7 @@ def changeFuc(request):
     print(data.fuc)
     msg = {
         'todo': 'change',
-        'data': {'fuc':data.fuc}
+        'data': {'fuc': data.fuc}
     }
     print(msg)
 
