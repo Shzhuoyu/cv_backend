@@ -99,3 +99,37 @@ def entering(request):
     for camera in cameras:
         cameras[camera].send(json.dumps(msg, ensure_ascii=False))
     return HttpResponse('相机已开始录制')
+
+
+@api_view(['GET'])
+def takePhoto(request):
+    """
+    拍照
+    :param request:
+    :return:
+    """
+    msg = {
+        'todo': 'takePhoto'
+    }
+    for camera in cameras:
+        cameras[camera].send(json.dumps(msg, ensure_ascii=False))
+    return HttpResponse('相机已拍照')
+
+
+@api_view(['POST'])
+def changeFuc(request):
+    """
+    更改功能
+    fuc:更改的功能 0:无 1微笑检测 2交互检测 3摔倒检测 4禁区入侵
+    :param request:
+    :return:
+    """
+    data = UnJson(request.data)
+    msg = {
+        'todo': 'change',
+        'data':data
+    }
+
+    for camera in cameras:
+        cameras[camera].send(json.dumps(msg, ensure_ascii=False))
+    return HttpResponse('相机功能已更改')

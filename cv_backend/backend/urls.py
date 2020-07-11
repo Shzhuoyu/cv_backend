@@ -47,7 +47,9 @@ urlpatterns = [
     url('websocket/send', websocket.send),
     url('websocket/refresh', websocket.refresh),
     url('websocket/cameraLink', websocket.cameraLink),
-    url('websocket/reboot', websocket.reboot)
+    url('websocket/reboot', websocket.reboot),
+    url('websocket/entering', websocket.entering),
+    url('websocket/changeFuc',websocket.changeFuc)
 
 
 ]
