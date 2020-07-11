@@ -146,6 +146,7 @@ def changeFuc(request):
         'todo': 'change',
         'data': data
     }
+    print(msg)
 
     for camera in cameras:
         cameras[camera].send(json.dumps(msg, ensure_ascii=False))
