@@ -93,7 +93,7 @@ def entering(request):
     data = UnJson(request.data)
     msg = {
         'todo': 'entering',
-        'data':data
+        'data': data
     }
 
     for camera in cameras:
@@ -109,11 +109,28 @@ def takePhoto(request):
     :return:
     """
     msg = {
-        'todo': 'takePhoto'
+        'todo': 'takePhoto',
+        'data': {'fuc': 'shutter'}
     }
     for camera in cameras:
         cameras[camera].send(json.dumps(msg, ensure_ascii=False))
     return HttpResponse('相机已拍照')
+
+
+@api_view(['GET'])
+def standard(request):
+    """
+    拍照
+    :param request:
+    :return:
+    """
+    msg = {
+        'todo': 'takePhoto',
+        'data': {'fuc': 'standard'}
+    }
+    for camera in cameras:
+        cameras[camera].send(json.dumps(msg, ensure_ascii=False))
+    return HttpResponse('相机已标定')
 
 
 @api_view(['POST'])
@@ -127,7 +144,7 @@ def changeFuc(request):
     data = UnJson(request.data)
     msg = {
         'todo': 'change',
-        'data':data
+        'data': data
     }
 
     for camera in cameras:
