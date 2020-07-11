@@ -142,9 +142,10 @@ def changeFuc(request):
     :return:
     """
     data = UnJson(request.data)
+    print(data.fuc)
     msg = {
         'todo': 'change',
-        'data': data
+        'data': {'fuc':data.fuc}
     }
     print(msg)
 
