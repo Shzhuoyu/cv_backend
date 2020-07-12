@@ -167,5 +167,5 @@ def totalNum(request):
         'strangerNum': data.stranger
     }
     for client in clients:
-        clients[client].send(msg.encode('utf-8'))
+        clients[client].send(json.dumps(msg, ensure_ascii=False))
     return HttpResponse("success")
