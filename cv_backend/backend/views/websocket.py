@@ -155,3 +155,17 @@ def changeFuc(request):
     for camera in cameras:
         cameras[camera].send(json.dumps(msg, ensure_ascii=False))
     return HttpResponse('相机功能已更改')
+
+
+@api_view(['POST'])
+def totalNum(request):
+    data = UnJson(request.data)
+    msg = {
+        'elderNum': data.old,
+        'staffNum': data.employee,
+        'volunteerNum': data.volunteer,
+        'strangerNum': data.stranger
+    }
+    for client in clients:
+        clients[client].send(msg.encode('utf-8'))
+    return HttpResponse("success")

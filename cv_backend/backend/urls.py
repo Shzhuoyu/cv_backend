@@ -55,5 +55,7 @@ urlpatterns = [
     url('websocket/changeFuc', websocket.changeFuc),
     url('websocket/takePhoto', websocket.takePhoto),
     url('websocket/standard', websocket.standard),
+    url('websocket/total', websocket.totalNum),
+
 
 ]

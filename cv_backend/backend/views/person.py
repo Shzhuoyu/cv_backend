@@ -207,7 +207,7 @@ def employeeIDtoName(request,pk):
     """义工id换名字"""
     try:
         employee = employee_info.objects.get(pk=pk)
-    except oldperson_info.DoesNotExist:
+    except employee_info.DoesNotExist:
         return HttpResponse(status=404)
     name=employee.username
     return HttpResponse(name)
