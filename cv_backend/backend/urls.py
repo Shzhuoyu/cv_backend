@@ -30,6 +30,7 @@ urlpatterns = [
     #   Volunteer  义工
     url('person/volunteerList', person.volunteerList.as_view()),
     url('person/volunteerDetail', person.volunteerDetail.as_view()),
+    url('person/employee/(?P<pk>[0-9]+)/$', person.oldIDtoName),
 
     # EVENT 事件
     url('event/list', statistics.eventList.as_view()),
