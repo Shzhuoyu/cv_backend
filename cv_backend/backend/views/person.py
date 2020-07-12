@@ -189,3 +189,13 @@ class volunteerDetail(APIView):
         volunteer = self.get_object(data.id)
         volunteer.delete()
         return Response('义工删除成功', status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def oldIDtoName(request,pk):
+    try:
+        old = oldperson_info.objects.get(pk=pk)
+    except oldperson_info.DoesNotExist:
+        return HttpResponse(status=404)
+    name=old.username
+    return HttpResponse(name)

@@ -23,6 +23,7 @@ urlpatterns = [
     #   Old Man  老人
     url('person/oldManList', person.oldManList.as_view()),
     url('person/oldManDetail', person.oldManDetail.as_view()),
+    url('person/old/(?P<pk>[0-9]+)/$', person.oldIDtoName),
     #   Employee  员工
     url('person/employeeList', person.employeeList.as_view()),
     url('person/employeeDetail', person.employeeDetail.as_view()),
@@ -35,7 +36,7 @@ urlpatterns = [
 
     # STATISTICS 统计报表
     url('statistics/all', statistics.allTotal),  # 所有人员的统计
-    url('statistics/excel',statistics.exportExcel),  # 导出excel
+    url('statistics/excel', statistics.exportExcel),  # 导出excel
     url('statistics/age', statistics.oldManAge),  # 按老人年龄区间
     url('statistics/event', statistics.todayEvent),  # 一周五个时事件总和
     url('statistics/dailyEvent', statistics.dailyEvent),  # 事件走势
