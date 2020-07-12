@@ -193,6 +193,7 @@ class volunteerDetail(APIView):
 
 @api_view(['GET'])
 def oldIDtoName(request,pk):
+    """老人id换名字"""
     try:
         old = oldperson_info.objects.get(pk=pk)
     except oldperson_info.DoesNotExist:
